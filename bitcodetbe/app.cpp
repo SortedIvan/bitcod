@@ -3,10 +3,9 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <stack>
 
 using sf::Keyboard;
-
-
 
 char GetInputCharacter(Keyboard::Key keystroke, std::map<Keyboard::Key, char>& alphabetMap);
 void PrintLine(std::string stringToPrint);
@@ -14,6 +13,8 @@ void DisplayLineOnScreen(std::string lineToDisplay, sf::Text& textHolder, sf::Re
 void DisplayCharOnScreen(char inputChar, sf::Text& textHolder, sf::RenderWindow& window);
 int GetStringLen(std::string stringToCheck);
 std::string RemoveCharFromString(std::string stringToRemoveFrom);
+std::string DeleteAndGetLastStringFromStack(std::stack<std::string>& text_lines);
+void DisplayAllLines(std::vector<std::string>& text_content, sf::Text& textHolder, sf::RenderWindow& window);
 
 int main()
 {
@@ -32,6 +33,8 @@ int main()
     sf::Event event;
 
     std::vector<std::string> text_content;
+    std::stack<std::string> text_lines;
+
     std::string current_line = "";
 
     while (window.isOpen()) {
@@ -58,19 +61,27 @@ int main()
                 if (event.key.code == sf::Keyboard::Enter) {
                     current_line += '\n';
                     window.clear();
-                    DisplayLineOnScreen(current_line, text, window);
+                    //DisplayLineOnScreen(current_line, text, window);
+                    text_lines.push(current_line);
+                    text_content.push_back(current_line);
+                    DisplayAllLines(text_content, text, window);
+                    current_line = "";
                 }
                 if (event.key.code == sf::Keyboard::Backspace) {
                     if (!GetStringLen(current_line) == 0) {
+                        // if the current_line is not null
                         current_line = RemoveCharFromString(current_line);
                         std::cout << current_line;
                         window.clear();
                         DisplayLineOnScreen(current_line, text, window);
                         continue;
                     }
-                    // if the current_line is not null
-
-
+                    if (GetStringLen(current_line) == 0) {
+                        window.clear();
+                        current_line = DeleteAndGetLastStringFromStack(text_lines);
+                        text_content.pop_back();
+                        DisplayAllLines(text_content, text, window);
+                    }
                 }
             }
         }
@@ -115,4 +126,18 @@ int GetStringLen(std::string stringToCheck) {
 std::string RemoveCharFromString(std::string stringToRemoveFrom) {
     stringToRemoveFrom.pop_back();
     return stringToRemoveFrom;
+}
+
+std::string DeleteAndGetLastStringFromStack(std::stack<std::string>& text_lines) {
+    std::string top_line = text_lines.top();
+    text_lines.pop();
+    return top_line;
+}
+
+void DisplayAllLines(std::vector<std::string>& text_content, sf::Text& textHolder, sf::RenderWindow& window) {
+    std::string all_text = "";
+    for (auto line : text_content) {
+        all_text += line;
+    }
+    DisplayLineOnScreen(all_text, textHolder, window);
 }
