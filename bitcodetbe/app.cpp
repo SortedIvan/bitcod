@@ -15,6 +15,7 @@ int GetStringLen(std::string stringToCheck);
 std::string RemoveCharFromString(std::string stringToRemoveFrom);
 std::string DeleteAndGetLastStringFromStack(std::stack<std::string>& text_lines);
 void DisplayAllLines(std::vector<std::string>& text_content, sf::Text& textHolder, sf::RenderWindow& window);
+std::string GetEntireText(std::vector<std::string>& text_content);
 
 int main()
 {
@@ -49,9 +50,10 @@ int main()
             if (event.type == sf::Event::TextEntered) {
                 if (event.text.unicode < 128) {
                     if (event.text.unicode != '\b') {
+                        std::string all_text = GetEntireText(text_content);
                         current_line += static_cast<char>(event.text.unicode);
                         window.clear();
-                        DisplayLineOnScreen(current_line, text, window);
+                        DisplayLineOnScreen(all_text + current_line, text, window);
                     }
 
                 }
@@ -59,10 +61,10 @@ int main()
             
             if (event.type == sf::Event::KeyReleased) {
                 if (event.key.code == sf::Keyboard::Enter) {
+                    text_lines.push(current_line);
                     current_line += '\n';
                     window.clear();
                     //DisplayLineOnScreen(current_line, text, window);
-                    text_lines.push(current_line);
                     text_content.push_back(current_line);
                     DisplayAllLines(text_content, text, window);
                     current_line = "";
@@ -70,17 +72,20 @@ int main()
                 if (event.key.code == sf::Keyboard::Backspace) {
                     if (!GetStringLen(current_line) == 0) {
                         // if the current_line is not null
+                        std::string all_text = GetEntireText(text_content);
                         current_line = RemoveCharFromString(current_line);
                         std::cout << current_line;
                         window.clear();
-                        DisplayLineOnScreen(current_line, text, window);
+                        DisplayLineOnScreen(all_text + current_line, text, window);
                         continue;
                     }
-                    if (GetStringLen(current_line) == 0) {
+
+                    if (GetStringLen(current_line) <= 0) {
                         window.clear();
+                        std::string all_text = GetEntireText(text_content);
                         current_line = DeleteAndGetLastStringFromStack(text_lines);
                         text_content.pop_back();
-                        DisplayAllLines(text_content, text, window);
+                        DisplayLineOnScreen(all_text, text, window);
                     }
                 }
             }
@@ -124,7 +129,8 @@ int GetStringLen(std::string stringToCheck) {
 }
 
 std::string RemoveCharFromString(std::string stringToRemoveFrom) {
-    stringToRemoveFrom.pop_back();
+    //stringToRemoveFrom.pop_back();
+    stringToRemoveFrom.resize(stringToRemoveFrom.size() - 1);
     return stringToRemoveFrom;
 }
 
@@ -140,4 +146,12 @@ void DisplayAllLines(std::vector<std::string>& text_content, sf::Text& textHolde
         all_text += line;
     }
     DisplayLineOnScreen(all_text, textHolder, window);
+}
+
+std::string GetEntireText(std::vector<std::string>& text_content) {
+    std::string all_text = "";
+    for (auto line : text_content) {
+        all_text += line;
+    }
+    return all_text;
 }
