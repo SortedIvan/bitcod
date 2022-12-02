@@ -152,10 +152,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="app.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="..\..\..\..\Users\ivano\OneDrive\Desktop\8bitfont.ttf" />
     <Font Include="..\..\..\..\Users\ivano\OneDrive\Desktop\fonty.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
