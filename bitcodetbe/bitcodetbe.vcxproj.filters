@@ -24,18 +24,21 @@
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="..\..\..\..\Users\ivano\OneDrive\Desktop\8bitfont.ttf">
+    <ClCompile Include="Editor.cpp">
       <Filter>Source Files</Filter>
-    </Font>
-    <Font Include="..\..\..\..\Users\ivano\OneDrive\Desktop\fonty.ttf">
-      <Filter>Source Files</Filter>
-    </Font>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="8bitfont.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

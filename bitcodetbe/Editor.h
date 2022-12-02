@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <utility>
+#include <vector>
 #include  <SFML/Graphics.hpp>
 
 class Editor
@@ -9,12 +10,14 @@ class Editor
         std::pair<int, int> screenResolution;
         std::string applicationName;
         sf::Font font;
+        sf::Text text;
     public:
         Editor(std::pair<int, int> screenResolution, std::string applicationName, sf::Font font);
         void StartEditor();
         std::pair<int, int> getScreenResolution();
-        std::string GetApplicationName();
-        sf::Font GetFont();
+        std::string getApplicationName();
+        sf::Font getFont();
+        
 
 
 };
